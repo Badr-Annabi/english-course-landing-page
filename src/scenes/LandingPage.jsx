@@ -85,6 +85,46 @@ const LandingPage = () => {
   };
 
 
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   email: "",
+  //   message: "",
+  // });
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [submitMessage, setSubmitMessage] = useState("");
+  //
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({ ...formData, [name]: value });
+  // };
+  //
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   setSubmitMessage("");
+  //
+  //   try {
+  //     const pabblyWebhookUrl =
+  //       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzNDA0MzY1MjZhNTUzMDUxMzEi_pc";
+  //
+  //     await axios.post(pabblyWebhookUrl, JSON.stringify(formData), {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     console.log("FormData:", formData)
+  //
+  //     setSubmitMessage(
+  //       "Thank you for your interest! We will contact you soon."
+  //     );
+  //     setFormData({ name: "", email: "", message: "" });
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //     setSubmitMessage("An error occurred. Please try again later.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -103,22 +143,21 @@ const LandingPage = () => {
     setIsSubmitting(true);
     setSubmitMessage("");
 
+    const formDataObj = new FormData();
+    formDataObj.append('name', formData.name);
+    formDataObj.append('email', formData.email);
+    formDataObj.append('message', formData.message);
+
     try {
       const pabblyWebhookUrl =
-        "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzNDA0MzY1MjZhNTUzMDUxMzEi_pc";
+          "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzNDA0MzY1MjY1NTUzNDUxMzUi_pc";
 
-      await axios.post(pabblyWebhookUrl, JSON.stringify(formData), {
+      const response = await axios.post(pabblyWebhookUrl, formDataObj, {
         headers: {
-          "Content-Type": "application/json",
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
-      // console.log("FormData:", formData)
-
-      setSubmitMessage(
-        "Thank you for your interest! We will contact you soon."
-      );
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
+    }catch (error) {
       console.error("Error submitting form:", error);
       setSubmitMessage("An error occurred. Please try again later.");
     } finally {
@@ -480,11 +519,11 @@ const LandingPage = () => {
         <section id="contact" className="container mx-auto px-4 py-20">
           <h2 className="f-title">Get More Information</h2>
           <form
-              className="max-w-lg mx-auto bg-gradient-to-r from-blue-50 to-gray-50 p-8 rounded-xl shadow-md transform transition-transform hover:scale-105"
+              className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg"
               onSubmit={handleSubmit}
           >
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
+            <div className="mb-4">
+              <label htmlFor="name" className="block mb-2 font-semibold">
                 Name
               </label>
               <input
@@ -493,13 +532,12 @@ const LandingPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
-                  placeholder="Enter your full name"
+                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
               />
             </div>
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
+            <div className="mb-4">
+              <label htmlFor="email" className="block mb-2 font-semibold">
                 Email
               </label>
               <input
@@ -508,13 +546,12 @@ const LandingPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
-                  placeholder="Enter your email address"
+                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
                   required
               />
             </div>
-            <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-semibold text-gray-700">
+            <div className="mb-4">
+              <label htmlFor="message" className="block mb-2 font-semibold">
                 Message
               </label>
               <textarea
@@ -522,25 +559,84 @@ const LandingPage = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
-                  placeholder="Write your message here"
+                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
                   rows="4"
                   required
               ></textarea>
             </div>
             <button
                 type="submit"
-                className={`w-full py-3 px-6 text-white rounded-lg font-semibold transition duration-300 ${
-                    isSubmitting ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-                }`}
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
                 disabled={isSubmitting}
             >
-              {isSubmitting ? "Sending..." : "Submit"}
+              {isSubmitting ? "Sending..." : "Get Started"}
             </button>
             {submitMessage && (
-                <p className="mt-4 text-center text-green-600 font-medium">{submitMessage}</p>
+                <p className="mt-4 text-center text-green-600">{submitMessage}</p>
             )}
           </form>
+          {/*<form*/}
+          {/*    className="max-w-lg mx-auto bg-gradient-to-r from-blue-50 to-gray-50 p-8 rounded-xl shadow-md transform transition-transform hover:scale-105"*/}
+          {/*    onSubmit={handleSubmit}*/}
+          {/*>*/}
+          {/*  <div className="mb-6">*/}
+          {/*    <label htmlFor="name" className="block text-sm font-semibold text-gray-700">*/}
+          {/*      Name*/}
+          {/*    </label>*/}
+          {/*    <input*/}
+          {/*        type="text"*/}
+          {/*        id="name"*/}
+          {/*        name="name"*/}
+          {/*        value={formData.name}*/}
+          {/*        onChange={handleInputChange}*/}
+          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
+          {/*        placeholder="Enter your full name"*/}
+          {/*        required*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*  <div className="mb-6">*/}
+          {/*    <label htmlFor="email" className="block text-sm font-semibold text-gray-700">*/}
+          {/*      Email*/}
+          {/*    </label>*/}
+          {/*    <input*/}
+          {/*        type="email"*/}
+          {/*        id="email"*/}
+          {/*        name="email"*/}
+          {/*        value={formData.email}*/}
+          {/*        onChange={handleInputChange}*/}
+          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
+          {/*        placeholder="Enter your email address"*/}
+          {/*        required*/}
+          {/*    />*/}
+          {/*  </div>*/}
+          {/*  <div className="mb-6">*/}
+          {/*    <label htmlFor="message" className="block text-sm font-semibold text-gray-700">*/}
+          {/*      Message*/}
+          {/*    </label>*/}
+          {/*    <textarea*/}
+          {/*        id="message"*/}
+          {/*        name="message"*/}
+          {/*        value={formData.message}*/}
+          {/*        onChange={handleInputChange}*/}
+          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
+          {/*        placeholder="Write your message here"*/}
+          {/*        rows="4"*/}
+          {/*        required*/}
+          {/*    ></textarea>*/}
+          {/*  </div>*/}
+          {/*  <button*/}
+          {/*      type="submit"*/}
+          {/*      className={`w-full py-3 px-6 text-white rounded-lg font-semibold transition duration-300 ${*/}
+          {/*          isSubmitting ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"*/}
+          {/*      }`}*/}
+          {/*      disabled={isSubmitting}*/}
+          {/*  >*/}
+          {/*    {isSubmitting ? "Sending..." : "Submit"}*/}
+          {/*  </button>*/}
+          {/*  {submitMessage && (*/}
+          {/*      <p className="mt-4 text-center text-green-600 font-medium">{submitMessage}</p>*/}
+          {/*  )}*/}
+          {/*</form>*/}
 
         </section>
 
