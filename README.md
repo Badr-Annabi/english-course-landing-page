@@ -1,38 +1,73 @@
-# EnglishMaster Landing Page
+# EnglishElevate - English Course Landing Page
 
-You can access the live website via: [https://english-course-landing-page.vercel.app/](https://english-course-landing-page.vercel.app/)
+**EnglishElevate** is an interactive, modern landing page for an English learning platform. It showcases a clean and user-friendly design, featuring essential sections such as course features, instructors, schedules, and more. The project is built with React, Tailwind CSS, and custom animations for a responsive experience across all devices.
 
-A simple and responsive landing page for **EnglishMaster** courses, built with React and Tailwind CSS. The landing page features a contact form to capture leads, which are automatically stored in a Google Sheet using Pabbly Connect.
+[Check out the live site!](https://english-course-landing-page-git-main-badr-annabis-projects.vercel.app/)
 
 ## Features
-- **Responsive Design**: Works on all devices.
-- **Lead Capture Form**: Collects names, emails, and messages from potential students.
-- **Google Sheets Integration**: All form submissions are stored in a Google Sheet.
-- **Testimonials**: Student feedback on the course.
-- **Pricing Plans**: Information on course pricing.
-- **FAQ**: Common questions answered.
 
-## Tech Stack
-- **React**
-- **Tailwind CSS**
-- **Pabbly Connect**
-- **Google Sheets**
+- **Responsive Design**: The landing page is optimized for mobile, tablet, and desktop screens.
+- **Animated Interactions**: Smooth transitions and hover effects for a delightful user experience.
+- **Flexible Layout**: The layout adjusts automatically, making the page easy to navigate on all screen sizes.
+- **Modern Aesthetic**: Designed with a vibrant gradient and modern elements to attract and engage users.
+- **Section Highlights**: Information about certified instructors, customizable schedules, and the comprehensive curriculum.
 
-## How to Run
+## Project Structure
 
-1. **Clone the project**:
-   ```bash
-   git clone https://github.com/yourusername/englishmaster-landing-page.git
-   cd englishmaster-landing-page
+Here’s a brief overview of the project directory:
 
-2. **Install dependencies**:
-    ```bash
-    npm install
+```angular2html
+.
+├── README.md
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   └── manifest.json
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── Components
+│   │   └── Accordion.jsx
+│   ├── images
+│   │   ├── herosectionpic.jpg
+│   │   ├── test2.jpg
+│   │   ├── test3.jpg
+│   │   ├── test4.jpg
+│   │   └── test5.jpg
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── scenes
+│   │   └── LandingPage.jsx
+│   └── setupTests.js
+└── tailwind.config.js
+```
 
-3. **run the project**:
-    ```bash
-    npm start
+## Installation
 
-## Leads Storage
-All form submissions are saved in the following Google Sheet:
-https://docs.google.com/spreadsheets/d/e/2PACX-1vRB9jY6fBwnj4V6HsfOgcrP38oyPBUy_KySyIsc11BYfj4V1ZJ21oQLldkUiKopuzaIkbhvlDZioXL1/pubhtml
+To run this project locally, follow these steps:
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Badr-Annabi/english-course-landing-page.git
+
+cd english-course-landing-page
+
+npm install
+
+npm start
+```
+## Technologies used
+
+- React: A JavaScript library for building user interfaces.
+- Tailwind CSS: A utility-first CSS framework for rapid UI development.
+- AOS (Animate On Scroll): A library to add scroll animations.
+
+
+## Contributing
+Feel free to fork the repository, submit issues, or create pull requests for improvements. Contributions are always welcome!
