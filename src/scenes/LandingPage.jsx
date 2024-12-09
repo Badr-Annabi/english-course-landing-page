@@ -1,5 +1,7 @@
 import React, { useState , useEffect } from "react";
 import axios from "axios";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import profil1 from "../images/herosectionpic.jpg";
 import test4 from "../images/test4.jpg"
 import test2 from "../images/test2.jpg"
@@ -17,6 +19,10 @@ const LandingPage = () => {
   // eslint-disable-next-line
   const [active, setActive] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true }); // Initialize AOS
+  }, []);
 
   const handleScroll = (id) => {
     const element = document.getElementById(id);
@@ -84,47 +90,6 @@ const LandingPage = () => {
     }
   };
 
-
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   email: "",
-  //   message: "",
-  // });
-  // const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [submitMessage, setSubmitMessage] = useState("");
-  //
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({ ...formData, [name]: value });
-  // };
-  //
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-  //   setSubmitMessage("");
-  //
-  //   try {
-  //     const pabblyWebhookUrl =
-  //       "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzNDA0MzY1MjZhNTUzMDUxMzEi_pc";
-  //
-  //     await axios.post(pabblyWebhookUrl, JSON.stringify(formData), {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     console.log("FormData:", formData)
-  //
-  //     setSubmitMessage(
-  //       "Thank you for your interest! We will contact you soon."
-  //     );
-  //     setFormData({ name: "", email: "", message: "" });
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //     setSubmitMessage("An error occurred. Please try again later.");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -151,12 +116,16 @@ const LandingPage = () => {
     try {
       const pabblyWebhookUrl =
           "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTZmMDYzNDA0MzY1MjY1NTUzNDUxMzUi_pc";
-
+      // eslint-disable-next-line
       const response = await axios.post(pabblyWebhookUrl, formDataObj, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
+      // console.log("response:", response);
+      setSubmitMessage(
+          "We appreciate your interest! Our team will reach out to you shortly."
+      );
     }catch (error) {
       console.error("Error submitting form:", error);
       setSubmitMessage("An error occurred. Please try again later.");
@@ -171,7 +140,7 @@ const LandingPage = () => {
         {/* Header Section */}
         <div className="all-home">
           <header
-              className={`fixed top-0 left-0 w-full z-50 ${active ? 'activenav' : ''} backdrop-blur-md bg-opacity-30 shadow-lg`}
+              className={`fixed top-0 left-0 w-full z-50 ${active ? 'activenav' : ''} backdrop-blur-md bg-opacity-30 shadow-lg transition-all duration-500 ease-in-out`}
           >
             <div className="container mx-auto flex justify-between px-5 items-center py-4">
               <h1 className="text-3xl font-bold text-indigo-800">EnglishElevate</h1>
@@ -182,7 +151,7 @@ const LandingPage = () => {
               </div>
 
               {/* Navigation for Large Screens */}
-              <nav className="flex space-x-6">
+              <nav className="hidden lg:flex space-x-6">
                 <a
                     href="#home"
                     onClick={() => handleScroll('home')}
@@ -226,13 +195,12 @@ const LandingPage = () => {
                   Contact
                 </a>
               </nav>
-
             </div>
           </header>
 
           {/* Mobile Menu Dropdown */}
           {open && (
-              <div className="menu-content lg:hidden">
+              <div className="menu-content mt-10 bg-indigo-600 lg:hidden transition-all duration-300 ease-in-out">
                 <nav>
                   <a onClick={closeMenu} href="#home" className="mx-2 hover:underline">
                     Home
@@ -256,14 +224,19 @@ const LandingPage = () => {
               </div>
           )}
           {/* Hero Section */}
-          <section id="home"
-                   className="h-screen container mx-auto px-4 flex flex-col items-center lg:flex-row lg:justify-between"
+          <section
+              id="home"
+              className="h-screen mt-16 container mx-auto px-4 flex flex-col items-center lg:flex-row lg:justify-between transition-all duration-500 ease-in-out"
           >
-            <div className="flex flex-col">
-              <h1 className="text-4xl font-bold text-indigo-600">
-                Elevate Your English <br/> with EnglishElevate
+            <div
+                className="flex flex-col text-center lg:text-left"
+                data-aos="fade-up"
+                data-aos-delay="300"
+            >
+              <h1 className="text-4xl font-bold text-indigo-600 transition-all duration-500 ease-in-out">
+                Elevate Your English <br /> with EnglishElevate
               </h1>
-              <p className="text-lg mt-5 font-sans">
+              <p className="text-lg mt-5 font-sans transition-all duration-500 ease-in-out">
                 Transform your language skills and open doors to global opportunities.
                 Start your English learning journey with us today!
               </p>
@@ -271,48 +244,69 @@ const LandingPage = () => {
                 Ready to elevate your English? Contact us for a free trial class:
               </p>
 
-              <div className="mt-8 flex-row md:flex-col space-x-4">
+              <div
+                  className="mt-8 flex flex-col md:flex-row md:space-x-6 md:space-y-0 space-y-4 gap-4 lg:gap-8 transition-all duration-500 ease-in-out"
+                  data-aos="fade-up"
+                  data-aos-delay="500"
+              >
                 <a
                     href="#contact"
-                    className="bg-gradient-to-r from-indigo-400 to-blue-500 text-white py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                    className="bg-gradient-to-r from-indigo-400 to-blue-500 text-white py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center"
                 >
                   Contact Us
                 </a>
                 <a
                     href="#pricing"
-                    className="bg-gradient-to-r from-indigo-400 to-blue-500 text-white py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+                    className="bg-gradient-to-r from-indigo-400 to-blue-500 text-white py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center"
                 >
                   Get Started
                 </a>
               </div>
-
             </div>
-            <div className="home-img mt-8 lg:mt-0 flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+
+            <div
+                className="home-img mt-8 lg:mt-0 md:hidden lg:flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8"
+                data-aos="fade-up"
+                data-aos-delay="800"
+            >
               <div className="border-4 border-indigo-400 rounded-lg p-2">
                 <img
                     src={profil1}
                     alt="EnglishElevate Students"
-                    className="rounded-md w-full h-auto"
+                    className="rounded-md w-full h-auto transition-all duration-500 ease-in-out transform hover:scale-105"
                 />
               </div>
             </div>
-
           </section>
 
 
         </div>
-        {/* Features Section */}
+
+        {/* Features */}
         <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-16">
           <div id="features" className="text-center">
-            <h2 className="text-4xl font-extrabold mb-8">Why Choose EnglishElevate?</h2>
-            <div className="flex justify-center space-x-8 flex-wrap">
+            <h2
+                className="text-4xl font-extrabold mb-8 transition-all duration-500 ease-in-out"
+                data-aos="fade-up"
+                data-aos-delay="300"
+            >
+              Why Choose EnglishElevate?
+            </h2>
+            <div
+                className="flex justify-center  flex-wrap md:flex-nowrap md:space-x-12 transition-all duration-500 ease-in-out"
+            >
               {/* Expert Instructors */}
               <div
-                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out">
+                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out mb-6 md:mb-0"
+                  data-aos="fade-up"
+                  data-aos-delay="500"
+              >
                 <div className="flex justify-center mb-4">
                   <CgProfile size={60} className="text-indigo-500"/>
                 </div>
-                <h3 className="text-xl font-semibold text-center text-indigo-800">Certified Instructors</h3>
+                <h3 className="text-xl font-semibold text-center text-indigo-800">
+                  Certified Instructors
+                </h3>
                 <p className="mt-3 text-sm text-gray-700">
                   Learn from certified instructors who are native English speakers and bring years of experience to help
                   you master English.
@@ -321,11 +315,16 @@ const LandingPage = () => {
 
               {/* Flexible Learning Hours */}
               <div
-                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out">
+                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out mb-6 md:mb-0"
+                  data-aos="fade-up"
+                  data-aos-delay="600"
+              >
                 <div className="flex justify-center mb-4">
                   <CgTime size={60} className="text-indigo-500"/>
                 </div>
-                <h3 className="text-xl font-semibold text-center text-indigo-800">Customizable Schedules</h3>
+                <h3 className="text-xl font-semibold text-center text-indigo-800">
+                  Customizable Schedules
+                </h3>
                 <p className="mt-3 text-sm text-gray-700">
                   Enjoy the flexibility to learn at your own pace, with lessons and schedules tailored to fit your needs
                   and lifestyle.
@@ -334,11 +333,16 @@ const LandingPage = () => {
 
               {/* Comprehensive Curriculum */}
               <div
-                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out">
+                  className="w-72 shadow-lg p-6 rounded-lg bg-white bg-opacity-80 hover:bg-opacity-100 hover:scale-105 transform transition-all duration-300 ease-in-out mb-6 md:mb-0"
+                  data-aos="fade-up"
+                  data-aos-delay="700"
+              >
                 <div className="flex justify-center mb-4">
                   <CgPullClear size={60} className="text-indigo-500"/>
                 </div>
-                <h3 className="text-xl font-semibold text-center text-indigo-800">All-Inclusive Curriculum</h3>
+                <h3 className="text-xl font-semibold text-center text-indigo-800">
+                  All-Inclusive Curriculum
+                </h3>
                 <p className="mt-3 text-sm text-gray-700">
                   Master all aspects of English, including grammar, vocabulary, fluency, and confidence through our
                   comprehensive courses.
@@ -519,11 +523,11 @@ const LandingPage = () => {
         <section id="contact" className="container mx-auto px-4 py-20">
           <h2 className="f-title">Get More Information</h2>
           <form
-              className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg"
+              className="max-w-lg mx-auto bg-gradient-to-r from-blue-50 to-gray-50 p-8 rounded-xl shadow-md transform transition-transform hover:scale-105"
               onSubmit={handleSubmit}
           >
-            <div className="mb-4">
-              <label htmlFor="name" className="block mb-2 font-semibold">
+            <div className="mb-6">
+              <label htmlFor="name" className="block text-sm font-semibold text-gray-700">
                 Name
               </label>
               <input
@@ -532,12 +536,13 @@ const LandingPage = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
+                  placeholder="Enter your full name"
                   required
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block mb-2 font-semibold">
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-sm font-semibold text-gray-700">
                 Email
               </label>
               <input
@@ -546,12 +551,13 @@ const LandingPage = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
+                  placeholder="Enter your email address"
                   required
               />
             </div>
-            <div className="mb-4">
-              <label htmlFor="message" className="block mb-2 font-semibold">
+            <div className="mb-6">
+              <label htmlFor="message" className="block text-sm font-semibold text-gray-700">
                 Message
               </label>
               <textarea
@@ -559,101 +565,54 @@ const LandingPage = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"
+                  placeholder="Write your message here"
                   rows="4"
                   required
               ></textarea>
             </div>
             <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
+                className={`w-full py-3 px-6 text-white rounded-lg font-semibold transition duration-300 ${
+                    isSubmitting ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                }`}
                 disabled={isSubmitting}
             >
-              {isSubmitting ? "Sending..." : "Get Started"}
+              {isSubmitting ? "Sending..." : "Submit"}
             </button>
             {submitMessage && (
-                <p className="mt-4 text-center text-green-600">{submitMessage}</p>
+                <p className="mt-4 text-center text-green-600 font-medium">{submitMessage}</p>
             )}
           </form>
-          {/*<form*/}
-          {/*    className="max-w-lg mx-auto bg-gradient-to-r from-blue-50 to-gray-50 p-8 rounded-xl shadow-md transform transition-transform hover:scale-105"*/}
-          {/*    onSubmit={handleSubmit}*/}
-          {/*>*/}
-          {/*  <div className="mb-6">*/}
-          {/*    <label htmlFor="name" className="block text-sm font-semibold text-gray-700">*/}
-          {/*      Name*/}
-          {/*    </label>*/}
-          {/*    <input*/}
-          {/*        type="text"*/}
-          {/*        id="name"*/}
-          {/*        name="name"*/}
-          {/*        value={formData.name}*/}
-          {/*        onChange={handleInputChange}*/}
-          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
-          {/*        placeholder="Enter your full name"*/}
-          {/*        required*/}
-          {/*    />*/}
-          {/*  </div>*/}
-          {/*  <div className="mb-6">*/}
-          {/*    <label htmlFor="email" className="block text-sm font-semibold text-gray-700">*/}
-          {/*      Email*/}
-          {/*    </label>*/}
-          {/*    <input*/}
-          {/*        type="email"*/}
-          {/*        id="email"*/}
-          {/*        name="email"*/}
-          {/*        value={formData.email}*/}
-          {/*        onChange={handleInputChange}*/}
-          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
-          {/*        placeholder="Enter your email address"*/}
-          {/*        required*/}
-          {/*    />*/}
-          {/*  </div>*/}
-          {/*  <div className="mb-6">*/}
-          {/*    <label htmlFor="message" className="block text-sm font-semibold text-gray-700">*/}
-          {/*      Message*/}
-          {/*    </label>*/}
-          {/*    <textarea*/}
-          {/*        id="message"*/}
-          {/*        name="message"*/}
-          {/*        value={formData.message}*/}
-          {/*        onChange={handleInputChange}*/}
-          {/*        className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none transition duration-300"*/}
-          {/*        placeholder="Write your message here"*/}
-          {/*        rows="4"*/}
-          {/*        required*/}
-          {/*    ></textarea>*/}
-          {/*  </div>*/}
-          {/*  <button*/}
-          {/*      type="submit"*/}
-          {/*      className={`w-full py-3 px-6 text-white rounded-lg font-semibold transition duration-300 ${*/}
-          {/*          isSubmitting ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"*/}
-          {/*      }`}*/}
-          {/*      disabled={isSubmitting}*/}
-          {/*  >*/}
-          {/*    {isSubmitting ? "Sending..." : "Submit"}*/}
-          {/*  </button>*/}
-          {/*  {submitMessage && (*/}
-          {/*      <p className="mt-4 text-center text-green-600 font-medium">{submitMessage}</p>*/}
-          {/*  )}*/}
-          {/*</form>*/}
 
         </section>
 
         {/* Footer */}
-        <footer className="bg-blue-600 text-white py-8">
-          <div className="container mx-auto px-4 text-center">
-            <p>&copy; 2024 EnglishElevate. All rights reserved.</p>
-            <div className="mt-4">
-              <a href="/privacy-policy" className="mx-2 hover:underline">
+        <footer className="bg-gradient-to-r from-indigo-800 via-indigo-900 to-indigo-950 text-white py-8">
+          <div className="container mx-auto px-6 text-center">
+            <p className="text-lg font-semibold tracking-wide">
+              &copy; 2024 <span className="text-indigo-300">EnglishElevate</span>. All rights reserved.
+            </p>
+            <div className="mt-6 flex justify-center space-x-6">
+              <a
+                  href="/privacy-policy"
+                  className="text-indigo-200 hover:text-white transition-colors duration-300 ease-in-out transform hover:scale-105"
+              >
                 Privacy Policy
               </a>
-              <a href="/terms-of-service" className="mx-2 hover:underline">
+              <a
+                  href="/terms-of-service"
+                  className="text-indigo-200 hover:text-white transition-colors duration-300 ease-in-out transform hover:scale-105"
+              >
                 Terms of Service
               </a>
             </div>
+            <div className="mt-6 text-sm opacity-70">
+              <p>Made with ❤️ by the EnglishElevate Team</p>
+            </div>
           </div>
         </footer>
+
       </div>
   );
 };

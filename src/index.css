@@ -174,10 +174,8 @@ padding: 50px 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 350px;
+    width: 50%;
     height: 560px;
-    
-    background-color: rgba(3, 181, 241, 0.727);
     z-index: 10000099;
     backdrop-filter: blur(10px);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
